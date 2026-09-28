@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Hospital</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+        <div class="logo">
+            🏥 Smart Hospital
+        </div>
+
+        <nav>
+
+            <a href="#home">Home</a>
+
+            <a href="#hospitals">Hospitals</a>
+
+            <a href="#doctors">Doctors</a>
+
+            <a href="#health">Health Check</a>
+
+            <a href="#appointment">Appointment</a>
+
+            <a href="#about">About</a>
+
+        </nav>
+
+        <button
+            class="emergency-btn"
+            onclick="callEmergency()">
+
+            🚨 Emergency 108
+
+        </button>
+
+    </header>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section id="home" class="hero">
+
+        <div class="hero-content">
+
+            <span class="hero-badge">
+                🏥 Smart Healthcare System
+            </span>
+
+            <h1>
+                SMART
+                <span>HOSPITAL</span>
+            </h1>
+
+            <p>
+                Find nearby hospitals, check hospital details,
+                consult doctors and book appointments easily.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button
+                    class="primary-btn"
+                    onclick="getLocation()">
+
+                    📍 Find Hospitals Near Me
+
+                </button>
+
+                <button
+                    class="secondary-btn"
+                    onclick="document.getElementById('appointment').scrollIntoView({behavior:'smooth'})">
+
+                    📅 Book Appointment
+
+                </button>
+
+            </div>
+
+            <div
+                id="locationStatus"
+                class="location-status">
+
+                📍 Click "Find Hospitals Near Me"
+                to detect your location.
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= SEARCH ================= -->
+
+    <section id="hospitals" class="section">
+
+        <div class="section-title">
+
+            <span>REAL HOSPITAL SEARCH</span>
+
+            <h2>
+                Find Hospitals
+            </h2>
+
+            <p>
+                Search real hospitals using hospital name,
+                city or location.
+            </p>
+
+        </div>
+
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Example: hospitals in Tirupati">
+
+            <button
+                onclick="searchHospitals()">
+
+                🔎 Search
+
+            </button>
+
+        </div>
+
+
+        <div class="search-hints">
+
+            Try:
+            <button onclick="quickSearch('hospitals in Tirupati')">
+                Tirupati
+            </button>
+
+            <button onclick="quickSearch('hospitals in Vijayawada')">
+                Vijayawada
+            </button>
+
+            <button onclick="quickSearch('hospitals in Visakhapatnam')">
+                Visakhapatnam
+            </button>
+
+        </div>
+
+
+        <div
+            id="hospitalContainer"
+            class="hospital-container">
+
+            <div class="welcome-card">
+
+                <div class="welcome-icon">
+                    🏥
+                </div>
+
+                <h3>
+                    Search for Hospitals
+                </h3>
+
+                <p>
+                    Allow location access or search
+                    for hospitals manually.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= DOCTORS ================= -->
+
+    <section id="doctors" class="section doctors-section">
+
+        <div class="section-title">
+
+            <span>MEDICAL SPECIALISTS</span>
+
+            <h2>
+                Consult Doctors
+            </h2>
+
+            <p>
+                Select a specialist and book a demo appointment.
+            </p>
+
+        </div>
+
+
+        <div class="doctor-grid">
+
+
+            <div class="doctor-card">
+
+                <div class="doctor-icon">
+                    👨‍⚕️
+                </div>
+
+                <h3>
+                    General Physician
+                </h3>
+
+                <p>
+                    General health consultation
+                    and common illnesses.
+                </p>
+
+                <button
+                    onclick="consultDoctor('General Physician')">
+
+                    Consult
+
+                </button>
+
+            </div>
+
+
+            <div class="doctor-card">
+
+                <div class="doctor-icon">
+                    👩‍⚕️
+                </div>
+
+                <h3>
+                    Cardiologist
+                </h3>
+
+                <p>
+                    Heart and cardiovascular
+                    health consultation.
+                </p>
+
+                <button
+                    onclick="consultDoctor('Cardiologist')">
+
+                    Consult
+
+                </button>
+
+            </div>
+
+
+            <div class="doctor-card">
+
+                <div class="doctor-icon">
+                    👨‍⚕️
+                </div>
+
+                <h3>
+                    Orthopedic
+                </h3>
+
+                <p>
+                    Bones, joints and muscle
+                    related consultation.
+                </p>
+
+                <button
+                    onclick="consultDoctor('Orthopedic')">
+
+                    Consult
+
+                </button>
+
+            </div>
+
+
+            <div class="doctor-card">
+
+                <div class="doctor-icon">
+                    👩‍⚕️
+                </div>
+
+                <h3>
+                    Pediatrician
+                </h3>
+
+                <p>
+                    Medical care for infants
+                    and children.
+                </p>
+
+                <button
+                    onclick="consultDoctor('Pediatrician')">
+
+                    Consult
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= HEALTH CHECK ================= -->
+
+    <section id="health" class="section health-section">
+
+        <div class="section-title">
+
+            <span>HEALTH ASSISTANT</span>
+
+            <h2>
+                Basic Health Checker
+            </h2>
+
+            <p>
+                Enter a symptom to receive general
+                information.
+            </p>
+
+        </div>
+
+
+        <div class="health-box">
+
+            <div class="health-input">
+
+                <textarea
+                    id="problemInput"
+                    placeholder="Example: I have fever and cough..."></textarea>
+
+                <button onclick="checkProblem()">
+
+                    🩺 Check Symptoms
+
+                </button>
+
+            </div>
+
+
+            <div
+                id="healthResult"
+                class="health-result">
+
+                <h3>
+                    💡 Health Information
+                </h3>
+
+                <p>
+                    Your result will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= APPOINTMENT ================= -->
+
+    <section
+        id="appointment"
+        class="section appointment-section">
+
+        <div class="section-title">
+
+            <span>ONLINE APPOINTMENT</span>
+
+            <h2>
+                Book Doctor Appointment
+            </h2>
+
+            <p>
+                Fill the form below to create a demo appointment.
+            </p>
+
+        </div>
+
+
+        <form
+            class="appointment-form"
+            onsubmit="bookAppointment(event)">
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>
+                        Patient Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="patientName"
+                        placeholder="Enter your name"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="patientPhone"
+                        placeholder="Enter phone number"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-group">
+
+                    <label>
+                        Doctor
+                    </label>
+
+                    <select
+                        id="doctorName"
+                        required>
+
+                        <option value="">
+                            Select Doctor
+                        </option>
+
+                        <option value="General Physician">
+                            General Physician
+                        </option>
+
+                        <option value="Cardiologist">
+                            Cardiologist
+                        </option>
+
+                        <option value="Orthopedic">
+                            Orthopedic
+                        </option>
+
+                        <option value="Pediatrician">
+                            Pediatrician
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Appointment Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="appointmentDate"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Appointment Time
+                </label>
+
+                <input
+                    type="time"
+                    id="appointmentTime"
+                    required>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="appointment-btn">
+
+                📅 Book Appointment
+
+            </button>
+
+
+            <div id="appointmentResult"></div>
+
+        </form>
+
+    </section>
+
+
+    <!-- ================= ABOUT ================= -->
+
+    <section id="about" class="section about-section">
+
+        <div class="about-content">
+
+            <div>
+
+                <span class="section-label">
+                    ABOUT PROJECT
+                </span>
+
+                <h2>
+                    Smart Hospital
+                </h2>
+
+                <p>
+                    Smart Hospital is a student web project
+                    designed to make hospital discovery easier.
+                </p>
+
+                <p>
+                    The system can detect the user's location,
+                    search real hospital information and show
+                    hospital contact details, ratings,
+                    distance and directions.
+                </p>
+
+            </div>
+
+
+            <div class="about-features">
+
+                <div>
+                    📍
+                    <strong>GPS Location</strong>
+                    <span>Find nearby hospitals</span>
+                </div>
+
+                <div>
+                    🏥
+                    <strong>Real Hospitals</strong>
+                    <span>Search hospital information</span>
+                </div>
+
+                <div>
+                    🗺️
+                    <strong>Directions</strong>
+                    <span>Open Google Maps</span>
+                </div>
+
+                <div>
+                    📅
+                    <strong>Appointments</strong>
+                    <span>Demo booking system</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-logo">
+            🏥 SMART HOSPITAL
+        </div>
+
+        <p>
+            Smart Healthcare Web Project
+        </p>
+
+        <p>
+            © 2026 Smart Hospital. Student Project.
+        </p>
+
+    </footer>
+
+
+    <!-- IMPORTANT -->
+
+    <script src="/js/script.js"></script>
+
+</body>
+
+</html>

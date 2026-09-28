@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+
+  :root{
+    --ink:#0F1410;
+    --panel:#151C17;
+    --panel-2:#1B241D;
+    --line:rgba(233,230,219,0.10);
+    --paper:#E9E6DB;
+    --paper-dim:rgba(233,230,219,0.55);
+    --moss:#8FB08A;
+    --moss-dim:rgba(143,176,138,0.18);
+    --error:#D97757;
+  }
+
+  *{box-sizing:border-box;}
+
+  html,body{
+    height:100%;
+    margin:0;
+  }
+
+  body{
+    background:
+      radial-gradient(1100px 600px at 15% -10%, #1B2A1C 0%, transparent 60%),
+      radial-gradient(900px 500px at 100% 110%, #14231A 0%, transparent 55%),
+      var(--ink);
+    color:var(--paper);
+    font-family:'Inter', sans-serif;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+
+  .card{
+    width:100%;
+    max-width:400px;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:44px 38px 36px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6);
+    position:relative;
+    overflow:hidden;
+  }
+
+  .mark{
+    width:38px;
+    height:38px;
+    border-radius:9px;
+    background:var(--moss-dim);
+    border:1px solid rgba(143,176,138,0.35);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:22px;
+  }
+  .mark svg{width:18px;height:18px;stroke:var(--moss);}
+
+  h1{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:28px;
+    letter-spacing:-0.01em;
+    margin:0 0 6px;
+    color:var(--paper);
+  }
+
+  .sub{
+    font-size:14px;
+    color:var(--paper-dim);
+    margin:0 0 30px;
+    line-height:1.5;
+  }
+
+  form{display:flex;flex-direction:column;gap:16px;}
+
+  .field{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+  }
+
+  label{
+    font-size:12.5px;
+    color:var(--paper-dim);
+    font-weight:500;
+  }
+
+  input{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    color:var(--paper);
+    font-size:15px;
+    font-family:'Inter', sans-serif;
+    outline:none;
+    transition:border-color .18s ease, background .18s ease;
+  }
+
+  input::placeholder{color:rgba(233,230,219,0.28);}
+
+  input:focus{
+    border-color:var(--moss);
+    background:#1E281F;
+  }
+
+  .card.shake input{border-color:var(--error);}
+
+  button{
+    margin-top:10px;
+    background:var(--moss);
+    color:#0F1410;
+    border:none;
+    border-radius:10px;
+    padding:13px 16px;
+    font-size:15px;
+    font-weight:600;
+    font-family:'Inter', sans-serif;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    transition:transform .12s ease, background .18s ease, box-shadow .18s ease;
+    box-shadow:0 8px 20px -8px rgba(143,176,138,0.5);
+  }
+
+  button:hover{background:#9FBE99;}
+
+  button:active{
+    transform:scale(0.965);
+    box-shadow:0 4px 10px -6px rgba(143,176,138,0.5);
+  }
+
+  button .ripple{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(15,20,16,0.25);
+    transform:scale(0);
+    animation:ripple .55s ease-out forwards;
+    pointer-events:none;
+  }
+
+  @keyframes ripple{
+    to{transform:scale(3.2); opacity:0;}
+  }
+
+  button.loading{
+    color:transparent;
+    pointer-events:none;
+  }
+
+  button .spinner{
+    position:absolute;
+    top:50%;left:50%;
+    width:16px;height:16px;
+    margin:-8px 0 0 -8px;
+    border:2px solid rgba(15,20,16,0.3);
+    border-top-color:#0F1410;
+    border-radius:50%;
+    opacity:0;
+  }
+
+  button.loading .spinner{
+    opacity:1;
+    animation:spin .6s linear infinite;
+  }
+
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .msg{
+    min-height:18px;
+    font-size:13px;
+    color:var(--error);
+    margin-top:2px;
+    opacity:0;
+    transform:translateY(-3px);
+    transition:opacity .2s ease, transform .2s ease;
+  }
+
+  .msg.show{opacity:1; transform:translateY(0);}
+
+  .success-flash{
+    position:absolute;
+    inset:0;
+    background:var(--moss);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .4s ease;
+  }
+
+  .success-flash.show{opacity:0.08;}
+
+  @keyframes shakeKey{
+    10%,90%{transform:translateX(-1px);}
+    20%,80%{transform:translateX(2px);}
+    30%,50%,70%{transform:translateX(-4px);}
+    40%,60%{transform:translateX(4px);}
+  }
+
+  .card.shake{animation:shakeKey .45s cubic-bezier(.36,.07,.19,.97) both;}
+
+  @media (prefers-reduced-motion: reduce){
+    .card.shake{animation:none;}
+    button, input{transition:none;}
+    .ripple, .spinner{animation:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <div class="success-flash" id="flash"></div>
+  <div class="mark">
+    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="10" width="16" height="10" rx="2"></rect>
+      <path d="M8 10V7a4 4 0 0 1 8 0v3"></path>
+    </svg>
+  </div>
+  <h1>Welcome back</h1>
+  <p class="sub">Sign in with your account to continue.</p>
+
+  <form id="loginForm" autocomplete="off">
+    <div class="field">
+      <label for="username">Username</label>
+      <input type="text" id="username" placeholder="Enter your username" />
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" placeholder="Enter your password" />
+    </div>
+    <div class="msg" id="msg">Incorrect username or password.</div>
+    <button type="submit" id="btn">
+      <span class="spinner"></span>
+      <span class="label">Sign in</span>
+    </button>
+  </form>
+</div>
+
+<script>
+  const form = document.getElementById('loginForm');
+  const card = document.getElementById('card');
+  const btn = document.getElementById('btn');
+  const msg = document.getElementById('msg');
+  const flash = document.getElementById('flash');
+
+  btn.addEventListener('click', function(e){
+    const rect = btn.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    const size = Math.max(rect.width, rect.height) * 1.2;
+    ripple.className = 'ripple';
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+    ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value.trim();
+
+    card.classList.remove('shake');
+    msg.classList.remove('show');
+    btn.classList.add('loading');
+
+    setTimeout(() => {
+      if (user === 'admin' && pass === '123') {
+        btn.classList.remove('loading');
+        flash.classList.add('show');
+        btn.querySelector('.label').textContent = 'Success';
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 450);
+      } else {
+        btn.classList.remove('loading');
+        msg.classList.add('show');
+        card.classList.add('shake');
+        setTimeout(() => card.classList.remove('shake'), 450);
+      }
+    }, 550);
+  });
+</script>
+
+</body>
+</html>
